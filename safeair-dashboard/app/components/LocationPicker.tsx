@@ -544,6 +544,7 @@ export function LocationPicker({
 
   if (error) {
     const isApiKeyError = error.includes("API") || error.includes("API key") || error.includes("can't load");
+    const isPlacesApiError = error.includes("Places API") || error.includes("ApiTargetBlocked") || error.includes("Places API Error");
     
     return (
       <div className="space-y-2">

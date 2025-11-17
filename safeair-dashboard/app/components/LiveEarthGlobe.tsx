@@ -17,7 +17,7 @@ const Globe = dynamic(
       </div>
     ),
   }
-);
+) as any;
 
 type DeviceSummary = {
   id: number;
@@ -135,8 +135,8 @@ export function LiveEarthGlobe() {
         </div>
       </div>
       <div className="relative w-full h-[500px] bg-slate-950">
+        {/* @ts-ignore - react-globe.gl types not available for dynamic import */}
         <Globe
-          ref={globeRef}
           globeImageUrl="https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
           backgroundImageUrl="https://unpkg.com/three-globe/example/img/night-sky.png"
           pointsData={points}
@@ -180,7 +180,8 @@ export function LiveEarthGlobe() {
               );
             }
           }}
-          onGlobeReady={() => {
+          onGlobeReady={(globe: any) => {
+            globeRef.current = globe;
             setIsGlobeReady(true);
           }}
           showAtmosphere={true}
