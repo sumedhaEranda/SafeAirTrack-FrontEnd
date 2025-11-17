@@ -30,7 +30,6 @@ export default function RegisterDevicePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-  const [responseData, setResponseData] = useState<any>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -58,7 +57,6 @@ export default function RegisterDevicePage() {
     setLoading(true);
     setError(null);
     setSuccess(false);
-    setResponseData(null);
 
     const baseUrl =
       process.env.NEXT_PUBLIC_LIVE_URL ?? process.env.LIVE_URL ?? "";
@@ -85,8 +83,7 @@ export default function RegisterDevicePage() {
         );
       }
 
-      const data = await res.json();
-      setResponseData(data);
+      await res.json();
       setSuccess(true);
       
       // Reset form after successful registration
@@ -101,6 +98,7 @@ export default function RegisterDevicePage() {
           initialLongitude: 0,
           phoneModel: "",
         });
+        setSuccess(false);
       }, 2000);
     } catch (err: any) {
       console.error("Error registering device", err);
@@ -308,14 +306,9 @@ export default function RegisterDevicePage() {
             {/* Success Message */}
             {success && (
               <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4">
-                <p className="text-sm font-medium text-emerald-300 mb-2">
+                <p className="text-sm font-medium text-emerald-300">
                   ✓ Device registered successfully!
                 </p>
-                {responseData && (
-                  <pre className="text-xs text-slate-300 overflow-auto bg-slate-950/50 p-3 rounded-xl mt-2">
-                    {JSON.stringify(responseData, null, 2)}
-                  </pre>
-                )}
               </div>
             )}
 
